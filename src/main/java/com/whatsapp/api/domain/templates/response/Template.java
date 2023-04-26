@@ -22,6 +22,8 @@ public record Template(
         @JsonProperty("id") String id,
 
         @JsonProperty("category") Category category,
+        
+        @JsonProperty("previous_category") String previousCategory,
 
         @JsonProperty("status") String status) {
 }
