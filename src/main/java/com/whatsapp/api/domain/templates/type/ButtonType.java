@@ -1,19 +1,19 @@
 package com.whatsapp.api.domain.templates.type;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+
 /**
  * The enum Button type.
  */
 public enum ButtonType {
-    /**
-     * Phone number button type.
-     */
     PHONE_NUMBER,
-    /**
-     * Url button type.
-     */
     URL,
-    /**
-     * Quick reply button type.
-     */
-    QUICK_REPLY
+    QUICK_REPLY,
+    VOICE_CALL,
+    ORDER_DETAILS,
+    COPY_CODE,
+    CATALOG,
+    OTP,
+    @JsonEnumDefaultValue
+    UNKNOWN;
 }
