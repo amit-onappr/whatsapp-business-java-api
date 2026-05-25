@@ -37,7 +37,12 @@ public enum ParameterType {
     /**
      * Payload parameter type. Indicates the type of parameter for the button.
      */
-    PAYLOAD("payload");
+    PAYLOAD("payload"),
+
+    /**
+     * Action parameter type. Used by flow buttons to carry the flow action object.
+     */
+    ACTION("action");
 
     private final String value;
 

@@ -9,6 +9,7 @@ public enum ButtonType {
     PHONE_NUMBER,
     URL,
     QUICK_REPLY,
+    FLOW,
     VOICE_CALL,
     ORDER_DETAILS,
     COPY_CODE,
