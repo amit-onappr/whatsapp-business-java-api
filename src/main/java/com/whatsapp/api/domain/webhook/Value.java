@@ -60,7 +60,15 @@ public record Value(
 
         @JsonProperty("ban_info") BanInfo banInfo,
 
-        @JsonProperty("restriction_info") List<RestrictionInfo> restrictionInfo
+        @JsonProperty("restriction_info") List<RestrictionInfo> restrictionInfo,
+
+        @JsonProperty("previous_quality_score") String previousQualityScore,
+
+        @JsonProperty("new_quality_score") String newQualityScore,
+
+        @JsonProperty("previous_category") String previousCategory,
+
+        @JsonProperty("new_category") String newCategory
 
 
 ) {

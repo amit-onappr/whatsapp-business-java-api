@@ -12,6 +12,16 @@ public enum FieldType {
      */
     MESSAGE_TEMPLATE_STATUS_UPDATE("message_template_status_update"),
     /**
+     * Notifies you when the quality score of a message template changes (GREEN / YELLOW / RED).
+     * Payload includes {@code previous_quality_score} and {@code new_quality_score}.
+     */
+    MESSAGE_TEMPLATE_QUALITY_UPDATE("message_template_quality_update"),
+    /**
+     * Notifies you when Meta reclassifies a template's category (e.g. UTILITY → MARKETING),
+     * which can change billing. Payload includes {@code previous_category} and {@code new_category}.
+     */
+    TEMPLATE_CATEGORY_UPDATE("template_category_update"),
+    /**
      * Notifies you when the name review associated with a phone number has a status update.
      */
     PHONE_NUMBER_NAME_UPDATE("phone_number_name_update"),
