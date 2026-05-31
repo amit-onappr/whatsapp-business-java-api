@@ -68,7 +68,9 @@ public record Value(
 
         @JsonProperty("previous_category") String previousCategory,
 
-        @JsonProperty("new_category") String newCategory
+        @JsonProperty("new_category") String newCategory,
+
+        @JsonProperty("correct_category") String correctCategory
 
 
 ) {
