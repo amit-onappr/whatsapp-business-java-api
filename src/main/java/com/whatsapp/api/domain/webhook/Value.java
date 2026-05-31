@@ -23,6 +23,13 @@ import java.util.List;
  * @param reason                  reason
  * @param rejectionReason         If a request was rejected, this field displays the reason for that rejection.
  * @param requestedVerifiedName   This field displays the name that was sent to be verified.
+ * @param previousQualityScore    For message_template_quality_update — quality score before this change (GREEN / YELLOW / RED).
+ * @param newQualityScore         For message_template_quality_update — quality score after this change.
+ * @param previousCategory        For template_category_update — category before Meta's reclassification.
+ * @param newCategory             For template_category_update — category Meta is moving the template to (immediate or scheduled).
+ * @param correctCategory         For template_category_update — Meta's recommended category (may differ from newCategory on scheduled events).
+ * @param currentCategory         For template_category_update — what the template is right now during a scheduled transition (set even when newCategory describes a future state).
+ * @param categoryUpdateTimestamp For template_category_update — when the change becomes effective. Free-form string (epoch seconds or ISO) — Meta has varied the format.
  */
 public record Value(
 
@@ -70,10 +77,48 @@ public record Value(
 
         @JsonProperty("new_category") String newCategory,
 
-        @JsonProperty("correct_category") String correctCategory
+        @JsonProperty("correct_category") String correctCategory,
+
+        @JsonProperty("current_category") String currentCategory,
+
+        @JsonProperty("category_update_timestamp") String categoryUpdateTimestamp
 
 
 ) {
 
+    /**
+     * Compatibility constructor preserving the canonical signature from v0.6.4-nfm.
+     * Callers that built {@code new Value(...)} positionally against the older
+     * library can keep working without padding {@code null}s for the webhook fields
+     * added in v0.6.5+. New webhook fields (quality score, category, etc.) default
+     * to {@code null} — those are only meaningful for non-message webhook events
+     * and callers that don't supply them weren't testing those events anyway.
+     */
+    public Value(
+            Metadata metadata,
+            String messagingProduct,
+            List<Message> messages,
+            List<Contact> contacts,
+            List<Status> statuses,
+            EventType event,
+            String phoneNumber,
+            String messageTemplateId,
+            String messageTemplateName,
+            String messageTemplateLanguage,
+            String reason,
+            String displayPhoneNumber,
+            String decision,
+            String requestedVerifiedName,
+            Object rejectionReason,
+            DisableInfo disableInfo,
+            String currentLimit,
+            BanInfo banInfo,
+            List<RestrictionInfo> restrictionInfo) {
+        this(metadata, messagingProduct, messages, contacts, statuses, event, phoneNumber,
+                messageTemplateId, messageTemplateName, messageTemplateLanguage, reason,
+                displayPhoneNumber, decision, requestedVerifiedName, rejectionReason,
+                disableInfo, currentLimit, banInfo, restrictionInfo,
+                null, null, null, null, null, null, null);
+    }
 
 }

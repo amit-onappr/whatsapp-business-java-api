@@ -388,6 +388,22 @@ class WebHookPayloadTest extends TestUtils {
     }
 
     @Test
+    void testDeserializationTemplateCategoryUpdate() throws IOException, URISyntaxException {
+        var payload = fromResource(JSON_FOLDER + "templateCategoryUpdate.json");
+
+        var obj = WebHook.constructEvent(payload);
+
+        var value = obj.entry().get(0).changes().get(0).value();
+        Assertions.assertEquals(FieldType.TEMPLATE_CATEGORY_UPDATE, obj.entry().get(0).changes().get(0).field());
+        Assertions.assertEquals("order_shipped_v2", value.messageTemplateName());
+        Assertions.assertEquals("UTILITY", value.previousCategory());
+        Assertions.assertEquals("MARKETING", value.newCategory());
+        Assertions.assertEquals("MARKETING", value.correctCategory());
+        Assertions.assertEquals("UTILITY", value.currentCategory());
+        Assertions.assertEquals("1730345600", value.categoryUpdateTimestamp());
+    }
+
+    @Test
     void testDeserializationAccountBanned() throws IOException, URISyntaxException {
         var payload = fromResource(JSON_FOLDER + "accountBanned.json");
 

@@ -1,0 +1,24 @@
+{
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "whatsapp-business-account-id",
+      "time": 1730000000,
+      "changes": [
+        {
+          "field": "template_category_update",
+          "value": {
+            "message_template_id": 1234567890,
+            "message_template_name": "order_shipped_v2",
+            "message_template_language": "en",
+            "previous_category": "UTILITY",
+            "new_category": "MARKETING",
+            "correct_category": "MARKETING",
+            "current_category": "UTILITY",
+            "category_update_timestamp": "1730345600"
+          }
+        }
+      ]
+    }
+  ]
+}
