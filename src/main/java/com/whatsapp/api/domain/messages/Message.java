@@ -26,6 +26,9 @@ public class Message {
     private InteractiveMessage interactiveMessage;
     @JsonProperty("to")
     private String to;
+    /** Business-scoped user ID of the recipient, used instead of {@code to} for WhatsApp username users. */
+    @JsonProperty("recipient")
+    private String recipient;
     @JsonProperty("type")
     private MessageType type;
     @JsonProperty("text")
@@ -60,8 +63,9 @@ public class Message {
     private Message() {
     }
 
-    private Message(String to, MessageType type, Context context) {
+    private Message(String to, String recipient, MessageType type, Context context) {
         this.to = to;
+        this.recipient = recipient;
         this.type = type;
         this.context = context;
     }
@@ -108,6 +112,15 @@ public class Message {
      */
     public String getTo() {
         return to;
+    }
+
+    /**
+     * Gets recipient.
+     *
+     * @return the recipient's business-scoped user ID, or null when the message is addressed with {@code to}
+     */
+    public String getRecipient() {
+        return recipient;
     }
 
     /**
@@ -215,6 +228,7 @@ public class Message {
     public static class MessageBuilder {
 
         private String to;
+        private String recipient;
         private Context context;
 
 
@@ -242,6 +256,19 @@ public class Message {
         }
 
         /**
+         * Sets recipient.
+         *
+         * @param recipient The business-scoped user ID of the person you want to send a message to, for a WhatsApp
+         *                  username user whose phone number you don't have. Use instead of {@link #setTo(String)};
+         *                  when both are set the API uses {@code to}.
+         * @return the recipient
+         */
+        public MessageBuilder setRecipient(String recipient) {
+            this.recipient = recipient;
+            return this;
+        }
+
+        /**
          * Sets context.
          *
          * @param context. the messsage's context.
@@ -263,7 +290,7 @@ public class Message {
          * @return the message
          */
         public Message buildTextMessage(TextMessage textMessage) {
-            var message = new Message(to, MessageType.TEXT, context);
+            var message = new Message(to, recipient, MessageType.TEXT, context);
             message.textMessage = textMessage;
             return message;
 
@@ -279,7 +306,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#contacts-object">API documentation</a>
          */
         public Message buildContactMessage(ContactMessage contactMessage) {
-            var message = new Message(to, MessageType.CONTACTS, context);
+            var message = new Message(to, recipient, MessageType.CONTACTS, context);
             message.contactMessage = contactMessage.getContacts();
             return message;
 
@@ -293,7 +320,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#template-object">API documentation</a>
          */
         public Message buildTemplateMessage(TemplateMessage templateMessage) {
-            var message = new Message(to, MessageType.TEMPLATE, context);
+            var message = new Message(to, recipient, MessageType.TEMPLATE, context);
             message.templateMessage = templateMessage;
             return message;
 
@@ -307,7 +334,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#interactive-object">API documentation</a>
          */
         public Message buildInteractiveMessage(InteractiveMessage interactiveMessage) {
-            var message = new Message(to, MessageType.INTERACTIVE, context);
+            var message = new Message(to, recipient, MessageType.INTERACTIVE, context);
             message.interactiveMessage = interactiveMessage;
             return message;
 
@@ -322,7 +349,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#media-object">API documentation</a>
          */
         public Message buildAudioMessage(AudioMessage audioMessage) {
-            var message = new Message(to, MessageType.AUDIO, context);
+            var message = new Message(to, recipient, MessageType.AUDIO, context);
             message.audioMessage = audioMessage;
             return message;
 
@@ -336,7 +363,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#media-object">API documentation</a>
          */
         public Message buildDocumentMessage(DocumentMessage documentMessage) {
-            var message = new Message(to, MessageType.DOCUMENT, context);
+            var message = new Message(to, recipient, MessageType.DOCUMENT, context);
             message.documentMessage = documentMessage;
             return message;
 
@@ -350,7 +377,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#media-object">API documentation</a>
          */
         public Message buildImageMessage(ImageMessage imageMessage) {
-            var message = new Message(to, MessageType.IMAGE, context);
+            var message = new Message(to, recipient, MessageType.IMAGE, context);
             message.imageMessage = imageMessage;
             return message;
 
@@ -364,7 +391,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#media-object">API documentation</a>
          */
         public Message buildStickerMessage(StickerMessage stickerMessage) {
-            var message = new Message(to, MessageType.STICKER, context);
+            var message = new Message(to, recipient, MessageType.STICKER, context);
             message.stickerMessage = stickerMessage;
             return message;
 
@@ -378,7 +405,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#media-object">API documentation</a>
          */
         public Message buildVideoMessage(VideoMessage videoMessage) {
-            var message = new Message(to, MessageType.VIDEO, context);
+            var message = new Message(to, recipient, MessageType.VIDEO, context);
             message.videoMessage = videoMessage;
             return message;
 
@@ -392,7 +419,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#location-object">API documentation</a>
          */
         public Message buildReactionMessage(ReactionMessage reactionMessage) {
-            var message = new Message(to, MessageType.REACTION, context);
+            var message = new Message(to, recipient, MessageType.REACTION, context);
             message.reactionMessage = reactionMessage;
             return message;
 
@@ -406,7 +433,7 @@ public class Message {
          * @see <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/reference/messages#location-messages">API documentation</a>
          */
         public Message buildLocationMessage(LocationMessage locationMessage) {
-            var message = new Message(to, MessageType.LOCATION, context);
+            var message = new Message(to, recipient, MessageType.LOCATION, context);
             message.locationMessage = locationMessage;
             return message;
 

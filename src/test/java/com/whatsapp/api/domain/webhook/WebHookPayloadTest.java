@@ -470,5 +470,45 @@ class WebHookPayloadTest extends TestUtils {
         Assertions.assertEquals("Message failed to send because more than 24 hours have passed since the customer last replied to this number.", statuses.get(0).errors().get(0).errorData().details());
 
     }
+
+    @Test
+    void testDeserializationTextMessageFromUsernameUser() throws IOException, URISyntaxException {
+        var payload = fromResource(JSON_FOLDER + "textMessageUsername.json");
+
+        var value = WebHook.constructEvent(payload).entry().get(0).changes().get(0).value();
+
+        var contact = value.contacts().get(0);
+        Assertions.assertNull(contact.waId());
+        Assertions.assertEquals("NP.1120662127531373", contact.userId());
+        Assertions.assertEquals("Sheena Nelson", contact.profile().name());
+        Assertions.assertEquals("realsheenanelson", contact.profile().username());
+        var message = value.messages().get(0);
+        Assertions.assertNull(message.from());
+        Assertions.assertEquals("NP.1120662127531373", message.fromUserId());
+        Assertions.assertEquals(MessageType.TEXT, message.type());
+    }
+
+    @Test
+    void testDeserializationSystemUserChangedUserId() throws IOException, URISyntaxException {
+        var payload = fromResource(JSON_FOLDER + "systemUserChangedUserId.json");
+
+        var message = WebHook.constructEvent(payload).entry().get(0).changes().get(0).value().messages().get(0);
+
+        Assertions.assertEquals(MessageType.SYSTEM, message.type());
+        Assertions.assertEquals("user_changed_user_id", message.system().type());
+        Assertions.assertEquals("NP.2222222222222222", message.system().userId());
+        Assertions.assertEquals("NP.1120662127531373", message.system().previousUserId());
+        Assertions.assertNull(message.system().newWaId());
+    }
+
+    @Test
+    void testDeserializationStatusWithRecipientUserId() throws IOException, URISyntaxException {
+        var payload = fromResource(JSON_FOLDER + "statusRecipientUserId.json");
+
+        var status = WebHook.constructEvent(payload).entry().get(0).changes().get(0).value().statuses().get(0);
+
+        Assertions.assertNull(status.recipientId());
+        Assertions.assertEquals("NP.1120662127531373", status.recipientUserId());
+    }
 }
 

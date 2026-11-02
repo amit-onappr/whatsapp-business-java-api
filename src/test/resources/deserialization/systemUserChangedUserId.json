@@ -1,0 +1,43 @@
+{
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "880480571844883",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "43330585569",
+              "phone_number_id": "409552778964973"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "Sheena Nelson",
+                  "username": "realsheenanelson"
+                },
+                "user_id": "NP.2222222222222222"
+              }
+            ],
+            "messages": [
+              {
+                "from_user_id": "NP.2222222222222222",
+                "id": "wamid.system1",
+                "timestamp": "1793434114",
+                "type": "system",
+                "system": {
+                  "type": "user_changed_user_id",
+                  "body": "User changed from NP.1120662127531373 to NP.2222222222222222",
+                  "user_id": "NP.2222222222222222",
+                  "previous_user_id": "NP.1120662127531373"
+                }
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}

@@ -11,5 +11,12 @@ public record Contact(
 
         @JsonProperty("input") String input,
 
-        @JsonProperty("wa_id") String waId) {
+        @JsonProperty("wa_id") String waId,
+
+        @JsonProperty("user_id") String userId) {
+
+    /** Kept for callers written before {@code user_id} existed. */
+    public Contact(String input, String waId) {
+        this(input, waId, null);
+    }
 }

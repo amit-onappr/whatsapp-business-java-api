@@ -15,7 +15,8 @@ import java.util.List;
  * @param contacts    Contacts
  * @param button      Added to Webhook if type is button. This field is used when the Webhook notifies you that a user clicked on a quick reply button. See {@link Button}
  * @param context     Added to Webhook if message is forwarded or an inbound reply. See {@link Context}
- * @param from        The customer's phone number.
+ * @param from        The customer's phone number. Omitted when the customer has a WhatsApp username and their phone number can't be shared.
+ * @param fromUserId  The customer's business-scoped user ID. Always present on inbound messages since April 2026.
  * @param id          The unique identifier of incoming message, you can use messages endpoint to mark it as read.
  * @param text        A text object. Added to Webhook if type is text. See {@link Text}
  * @param errors      Added to Webhook if type is unknown. See {@link Error}
@@ -70,5 +71,16 @@ public record Message(
 
         @JsonProperty("audio") Audio audio,
 
-        @JsonProperty("document") Document document) {
+        @JsonProperty("document") Document document,
+
+        @JsonProperty("from_user_id") String fromUserId) {
+
+    /** Kept for callers written before {@code from_user_id} existed. */
+    public Message(Reaction reaction, Image image, Sticker sticker, Location location, List<Contact> contacts,
+            Button button, Context context, String from, String id, Text text, List<Error> errors, MessageType type,
+            Interactive interactive, String timestamp, Referral referral, Order order, System system, Video video,
+            Audio audio, Document document) {
+        this(reaction, image, sticker, location, contacts, button, context, from, id, text, errors, type, interactive,
+                timestamp, referral, order, system, video, audio, document, null);
+    }
 }
